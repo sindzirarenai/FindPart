@@ -1,7 +1,9 @@
-var db = require('../db'),
-	Schema = db.Schema;
+var Parser = require('../parsing');
+var mongoose = require('../lib/db'),
+  Schema = mongoose.Schema;
 
-var Spare = new Schema({
+var spare = new Schema({
+	code: String,
 	name:{
 		type:String,
 		required:true
@@ -12,13 +14,35 @@ var Spare = new Schema({
 	},
 	images:Array,
 	section:String,
-	model:{
-		name:String, 
-		year:String
-	},
-	label:String,
-	date:Date,
-	code:String	
+	model:String,
+	marka:String,
+	city:String,
+	dateCreate:Date,
+	dateUpdate: Date,
+	code:String,
+	reference:String	
 });
 
-exports.Spare = db.model('spare', Spare);
+
+
+spare.statics.deleteAll=function(){
+  Spare.remove({},function(err,res,opt){
+    if(err) {
+      log.error(err.message);
+      return false;
+    }
+    return true;
+  });
+}
+
+spare.statics.addFromParsing= function(cb){
+  var pars = new Parser(["zapchastuga"]);
+  pars.getNew(function (err,res){
+    if (err==null){
+      Spare.create(res, cb);
+    }
+  });
+}
+
+var Spare = mongoose.model('Spare', spare);
+module.exports= mongoose.model('Spare');

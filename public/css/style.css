@@ -1,8 +1,36 @@
 body {
-  padding: 50px;
+  margin:10px;
+  margin-left: 5%;
+  margin-right: 5%;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  height:100%;
+  background-color:#C4E0F8; 
 }
 
-a {
-  color: #00B7FF;
+
+#body{   
+    width:100%;
+    background-color:#F5FFFA;
+    border-style:solid;
+    border-width:1px;
+    border-color: #C4E0F8;
+    border-radius:10px;
+}
+
+#header, #footer{
+  background-color:#3d58a8;
+  margin-top:10px;
+  border-style:solid;
+  border-width:2px;
+  border-color: #C4E0F8;
+  border-radius:10px;
+  
+}
+#form-search{
+    padding-top:10px;
+    /*background-color:#B0C4DE;*/
+}
+
+h3{
+  color:#ffffff;
 }

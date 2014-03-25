@@ -2,7 +2,14 @@
 	"server": {
 		"port": 3333
 	},
+	
 	"mongoose":{
 		"url":"mongodb://localhost/findSpare"
-	}
+	},
+	
+	"parsers":[
+		{
+			"name":"zapchastuga",
+			"url":"http://zapchastuga.ru/"}
+	]
 }

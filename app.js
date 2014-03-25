@@ -6,7 +6,6 @@ var express = require('express');
 var app = express();
 
 //set all 'options'
-app.set('port', config.get('server:port'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -35,9 +34,9 @@ app.use( function (err,req,res, next){
 
 //create server
 http.createServer(app).listen(
-	app.get ('port'),
+	config.get('server:port'),
 	function(){
-		console.log('Express server listening on port ' + app.get('port') );
+		console.log('Express server listening on port ' + config.get('server:port') )
 });
 
 
