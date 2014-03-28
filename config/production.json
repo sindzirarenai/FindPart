@@ -1,0 +1,15 @@
+{
+	"server": {
+		"port": 3333
+	},
+	
+	"mongoose":{
+		"url":"mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/"
+	},
+	
+	"parsers":[
+		{
+			"name":"zapchastuga",
+			"url":"http://zapchastuga.ru/"}
+	]
+}
