@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/kube.min.css' />
+    <link rel='stylesheet' href='/css/style.css' />
+  </head>
+  <body>
+    <div class="units-row" id="body">
+      <div class="unit-centered" id="header">
+        <hgroup>
+          <h3 align="center"><%= title %></h3>
+          <h3 class="subheading" align="center">Welcome to <%= title %></h3>
+      </div>
+      
+      <%-body -%>
+      
+      <div class="unit-centered" id="footer">
+        <hgroup>
+          <h4 align="center">PS-427/sindzirarenai</h4>
+          <h4 class="subheading" align="center">Welcome to <%= title %></h4>
+      </div>
+    </div>
+  </body>
+</html> 

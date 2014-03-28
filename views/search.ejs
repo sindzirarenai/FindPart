@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<div class="unit-centered unit-80" id="form-search">
+  <form method="GET" action="/find" class="forms">
+    <fieldset  style="margin:0">
+      <legend><h4>Поиск запчастей</h4></legend>
+      <div class="units-row units-split">
+        
+        <div class="unit-33">
+          <label for="name">
+            OEM-код
+            <input type="text" name="code" class="width-90">
+          </label>
+          <label for="name">
+            Название запчасти
+            <select class="width-90" name="spare" action='/:name'>
+              <option></option>
+              <% for(var i=0; i<name.length; i++) {%>
+              <option><%= name[i] %></option>
+              <% } %>
+            </select>
+          </label>
+        </div>
+        
+        <div class="unit-33">
+          <label for="marka">
+           Марка
+            <select class="width-90" name="marka" action='/:marka'>
+              <option></option>
+              <% for(var i=0; i<marka.length; i++) {%>
+              <option><%= marka[i] %></option>
+              <% } %>
+            </select>
+          </label>
+          <label for="model">
+           Модель
+            <select class="width-90" name="model" action='/:model'>
+              <option></option>
+              <% for(var i=0; i<model.length; i++) {%>
+              <option><%= model[i] %></option>
+              <% } %>
+            </select>
+          </label>
+        <!--  <label for="model-year">
+            Год выпуска
+            <select class="width-90"   name="model-year">
+              <option>Год выпуска</option>
+            </select>
+          </label> -->
+        </div>
+          
+        <div class="unit-33">
+         <!-- <label for="motor">
+            Тип двигателя
+            <input type="text" name="motor" class="width-90">
+          </label>
+          <label for="kuzov">
+            Тип кузова
+            <input type="text" name="kuzov" class="width-90">
+          </label>
+          <label for="city">
+            Город
+            <select class="width-90"  name="city">
+              <option>Город</option>
+            </select>
+          </label> -->
+        </div>
+        
+      </div>
+      <input type="submit" class="btn btn-blue" value="Искать" action='/search'>
+    </fieldset>
+  </form>
+<div>
+  

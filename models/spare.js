@@ -35,13 +35,17 @@ spare.statics.deleteAll=function(){
   });
 }
 
-spare.statics.addFromParsing= function(cb){
+spare.statics.addFromParsing= function(callback){
   var pars = new Parser(["zapchastuga"]);
   pars.getNew(function (err,res){
     if (err==null){
-      Spare.create(res, cb);
+      Spare.create(res, callback);
     }
   });
+}
+
+spare.statics.selectUniqueByField=function(field, callback){
+  Spare.distinct(field,{},callback);
 }
 
 var Spare = mongoose.model('Spare', spare);
