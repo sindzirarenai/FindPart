@@ -12,7 +12,7 @@
           </label>
           <label for="name">
             Название запчасти
-            <select class="width-90" name="spare" action='/:name'>
+            <select class="width-90" name="spare" action='/filter'>
               <option></option>
               <% for(var i=0; i<name.length; i++) {%>
               <option><%= name[i] %></option>
@@ -24,7 +24,7 @@
         <div class="unit-33">
           <label for="marka">
            Марка
-            <select class="width-90" name="marka" action='/:marka'>
+            <select class="width-90" name="marka" action='/filter'>
               <option></option>
               <% for(var i=0; i<marka.length; i++) {%>
               <option><%= marka[i] %></option>
@@ -33,7 +33,7 @@
           </label>
           <label for="model">
            Модель
-            <select class="width-90" name="model" action='/:model'>
+            <select class="width-90" name="model" action='/filter'>
               <option></option>
               <% for(var i=0; i<model.length; i++) {%>
               <option><%= model[i] %></option>

@@ -31,6 +31,7 @@ spare.statics.deleteAll=function(){
       log.error(err.message);
       return false;
     }
+    log.info('delete all');
     return true;
   });
 }
@@ -39,7 +40,11 @@ spare.statics.addFromParsing= function(callback){
   var pars = new Parser(["zapchastuga"]);
   pars.getNew(function (err,res){
     if (err==null){
+    console.log('here');
       Spare.create(res, callback);
+    }else{
+	log.error(err.message);
+	callback(err, null);
     }
   });
 }

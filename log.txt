@@ -28,3 +28,4 @@ ffdsfdf
 [2014-03-25 15:35:22] root ERROR:: Connection Closed By Application
 [2014-03-25 15:38:13] root ERROR:: Connection Closed By Application
 [2014-03-25 15:38:13] root ERROR:: Connection Closed By Application
+[2014-03-30 15:48:56] root ERROR:: getaddrinfo ENOTFOUND
