@@ -12,6 +12,7 @@
     "request": "~2.34.0",
     "cheerio": "~0.13.1",
     "async": "~0.2.10",
-    "ejs-locals": "~1.0.2"
+    "ejs-locals": "~1.0.2",
+    "mongoose": "~3.8.8"
   }
 }
