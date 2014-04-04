@@ -1,4 +1,4 @@
-Spare = require('./controllers/index'),
+Spare = require('./controllers/spare'),
  spare = new Spare();
 
 module.exports = function(app) {
@@ -7,6 +7,9 @@ module.exports = function(app) {
     spare.index(req,res);
   });
 
+  app.get('/filter', function(req,res,next){
+    spare.filter(req, res);
+  });
   
  /* app.get('/login', require('./login').get);
   app.post('/login', require('./login').post);

@@ -14,12 +14,15 @@ var spare = new Schema({
 	},
 	images:Array,
 	section:String,
-	model:String,
+	model:{
+    name:String,
+    year:String
+  },
 	marka:String,
 	city:String,
 	dateCreate:Date,
 	dateUpdate: Date,
-	code:String,
+	about:String,
 	reference:String	
 });
 
@@ -40,12 +43,27 @@ spare.statics.addFromParsing= function(callback){
   pars.getNew(function (err,res){
     if (err==null){
       Spare.create(res, callback);
+    }else{
+      log.error(err);
+      console.log(err);
+      callback(err, null);
     }
   });
 }
 
 spare.statics.selectUniqueByField=function(field, callback){
-  Spare.distinct(field,{},callback);
+  Spare.distinct(field, callback);
+}
+
+spare.statics.selectUniqueByFieldAndValue=function(query, callback){
+ Spare
+  .where(query.param).equals(query.value)
+  .distinct(query.field)
+  .exec(callback);
+/*Spare
+  .where('model.name').equals('Orlando')
+  .distinct('model.year')
+  .exec(callback);*/
 }
 
 var Spare = mongoose.model('Spare', spare);

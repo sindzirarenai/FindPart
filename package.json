@@ -6,14 +6,15 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "async": "~0.2.10",
+    "cheerio": "~0.13.1",
+    "ejs": "^1.0.0",
+    "ejs-locals": "~1.0.2",
     "express": "3.4.8",
     "intel": "~0.5.2",
+    "mongoose": "~3.8.8",
     "nconf": "~0.6.9",
-    "request": "~2.34.0",
-    "cheerio": "~0.13.1",
-    "async": "~0.2.10",
-    "ejs-locals": "~1.0.2",
-    "mongoose": "~3.8.8"
+    "request": "~2.34.0"
   },
   "engines": {
     "node": "0.10.25",

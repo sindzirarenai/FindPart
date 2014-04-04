@@ -9,13 +9,17 @@
       <td>Фото</td>
       <td>Дата</td>
       </tr>
-      <tr>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
+      <% if (results!=null) {%>
+      <% for(var i=0; i<results.length; i++) {%>
+              <tr>
+              <td><%= i %></td>
+              <td><%= results[i].name %></td>
+              <td><%= results[i].price %></td>
+              <td><%= results[i].images %></td>
+              <td>---</td>
       </tr>
+      <% } %>
+      <% } %>
     </table>
   </label>
   

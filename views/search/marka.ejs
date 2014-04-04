@@ -1,0 +1,10 @@
+      <label for="marka">
+           Марка
+            <select id ="marka" class="width-90" name="marka" 
+            onchange="javascript:filter('model','model.name','marka', this.value)">
+              <option>Все</option>
+              <% for(var i=0; i<marka.length; i++) {%>
+              <option><%= marka[i] %></option>
+              <% } %>
+            </select>
+          </label>

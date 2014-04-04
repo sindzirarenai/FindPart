@@ -7,6 +7,10 @@ body {
   background-color:#C4E0F8; 
 }
 
+a, a:hover{
+  color:#ffffff;
+  font-style:none;
+}
 
 #body{   
     width:100%;
