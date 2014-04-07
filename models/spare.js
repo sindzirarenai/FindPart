@@ -56,14 +56,13 @@ spare.statics.selectUniqueByField=function(field, callback){
 }
 
 spare.statics.selectUniqueByFieldAndValue=function(query, callback){
- Spare
-  .where(query.param).equals(query.value)
-  .distinct(query.field)
-  .exec(callback);
-/*Spare
-  .where('model.name').equals('Orlando')
-  .distinct('model.year')
-  .exec(callback);*/
+  Spare
+    .where()
+    .and(query.param)
+    .distinct(query.field)
+    .exec(function(err,res){
+      callback(err,res);
+    });
 }
 
 var Spare = mongoose.model('Spare', spare);
