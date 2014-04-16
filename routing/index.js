@@ -11,6 +11,10 @@ module.exports = function(app) {
     spare.filter(req, res);
   });
   
+  app.get('/search', function(req,res,next){
+    spare.search(req, res);
+  });
+  
  /* app.get('/login', require('./login').get);
   app.post('/login', require('./login').post);
 

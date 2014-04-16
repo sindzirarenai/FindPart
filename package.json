@@ -8,6 +8,7 @@
   "dependencies": {
     "async": "~0.2.10",
     "cheerio": "~0.13.1",
+    "download": "^0.1.15",
     "ejs": "^1.0.0",
     "ejs-locals": "~1.0.2",
     "express": "3.4.8",

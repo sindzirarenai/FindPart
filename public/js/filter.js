@@ -1,4 +1,17 @@
-function filter(wordForEmpty, id, field, arrayParamValue){
+$(document).on('change', 'select#marka',function(){
+  filter('марку','model.name','model-name',[{marka:this.value}]);
+  filter('модель', 'model.year', 'model-year',
+        [{'model.name':document.getElementById('model-name').value},
+        {marka:this.value}]);
+})
+
+$(document).on('change', 'select#model-name',function(){
+  filter('модель', 'model.year', 'model-year',
+        [{'model.name':this.value},
+        {marka:document.getElementById('marka').value}]);
+});
+
+function filter(wordForEmpty, field, id, arrayParamValue){
     $.get(
       "/filter",
       {
@@ -7,15 +20,15 @@ function filter(wordForEmpty, id, field, arrayParamValue){
       },
       success=function(data){
         var arr = data.substring(1,data.length-1).split(',');
-        $('#'+id).empty();
+        $element = $('#'+id);
+        $element.empty();
         if(arr[0]!=''){
-          $('#'+id).append('<option>Все</option>');         
+          $element.append("<option value='all'>Все</option>");         
           for(var i=0; i<arr.length; i++){
-            $('#'+id).append('<option>'+arr[i]+'</option>');
+            $element.append('<option>'+arr[i]+'</option>');
           }
         }else{
-          $('#'+id).append('<option>Выбрать '+wordForEmpty+'</option>');  
-        }
-        
+          $element.append("<option value='all'>Выбрать "+wordForEmpty+"</option>");  
+        }        
       })
 }

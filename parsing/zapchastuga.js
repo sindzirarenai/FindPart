@@ -3,31 +3,23 @@ request = require('request');
 cheerio = require('cheerio');
 config = require('../config');
 async = require('async');
+download = require('download');
 
-
-function getPartFromName(mainString, string, offsetLeft, offsetRight){
-  if(mainString!=null){
-    var indexString=mainString.indexOf(string);  
-    if(indexString==-1) return {mainString:mainString, other:null}
-    else return {mainString: mainString.substring(0, indexString), 
-      other: mainString.substring(indexString+offsetLeft, mainString.length-offsetRight)};
-  }else{
-    return {mainString:null, other:null}
+function parseName(td){
+  var regName= new RegExp(/.*?<br>/),
+      regCode=new RegExp(/О\/Н:[^\(\)]+/),
+      regAbout=new RegExp(/Товар забронирован|\(.*\)/);
+  return {
+    name: (td.search(regName)!=-1)?regName.exec(td)[0].slice(0,-4):td,
+    code: (td.search(regCode)!=-1)?regCode.exec(td)[0].slice(8,-4):undefined,
+    about:(td.search(regAbout)!=-1)?regAbout.exec(td)[0]:undefined
   }
 }
 
-function parseName(td){
-  var codeFromName=getPartFromName(td, "О/Н", 5, 0);
-  var aboutFromCode = getPartFromName(codeFromName.other,'(',1,1);
-  var bronFromName=getPartFromName(codeFromName.mainString, "Товар забронирован",0,0);
-  var about = (aboutFromCode.other==null)?'':aboutFromCode.other;
-  about=(bronFromName.other==null)?about:about+'<br>'+bronFromName.other;
-  return {name:bronFromName.mainString, code:aboutFromCode.mainString, about:about};
-}
-
 function parseModel(model){
-  var yearFromName=getPartFromName(model, ' (', 2,1);
-  return {model:yearFromName.mainString, year: yearFromName.other};
+  var yearFindIndex = model.search(new RegExp(/\(\d{4}--.*\)/));
+  return {model:yearFindIndex!=-1?model.substring(0,yearFindIndex-1):model, 
+          year: yearFindIndex!=-1?model.substring(yearFindIndex+1, model.length-1).replace(new RegExp("\-{2}"),'-'):undefined};
 }
 
 /*get one array from array of arrays*/
@@ -67,35 +59,49 @@ function getProds(object, callback){
   })
 }
 	
+  
+function getImages(elem){
+  return $(elem).find('#single_image').map(function(i,item){
+    $image = $(this).attr('href');
+    var nameImg = new RegExp(/p=\d*/).exec($image)[0];
+    nameImg=nameImg.substring(2,nameImg.length);
+    download({url:config.get("parsers")[0].url+$image, name:nameImg},config.get('loadDir'));
+    return config.get('loadDir')+'/'+nameImg;
+  }).toArray();	
+}
+
 /*get object from str, tr(excpet tr=0, header), td, get image*/ 		
 function getObjects(object, callback){
+
   request(config.get("parsers")[0].url+object.href, function (err, response, body){ 
     if(err){callback(err,null); return false;}
     $=cheerio.load(body);  
-    callback(null, $("table.prods_table").find('tr').map(function(i, elem){
+    callback(null, 
+      $("table.prods_table").find('tr').map(function(i, elem){
       if (i>0){
         var img=[];
-        var td=[];   												
-          $(elem).find('#single_image').each(function(i,item){
-            img.push(config.get("parsers")[0].url+$(this).attr('href'));
-          })									
+        var td=[];   																				
           $(elem).find('td').each(function(i,elem){
-            td.push($(this).text());
+            td.push($(this).html());
           });									
-          var st = object.str.split('~~');	
-          var nameParsing=parseName(td[0]);	
-          var modelParsing = parseModel(st[1]);
-          return{name:nameParsing.name, 
-                    code: nameParsing.code, 
-                    about:nameParsing.about, 
-                    price:td[2], 
-                    section:st[2], 
-                    model: {name: modelParsing.model,
-                            year:modelParsing.year}, 
-                    marka: st[0], 
-                    reference:object.href, 
-                    images:img};
-      }
+          var st = object.str.split('~~'),	
+              nameParsing=parseName(td[0]),	
+              modelParsing = parseModel(st[1]);
+          return{
+            name:nameParsing.name, 
+            code: nameParsing.code, 
+            about:nameParsing.about, 
+            price:td[2], 
+            section:st[2], 
+            model: {name: modelParsing.model,
+              year:modelParsing.year}, 
+            marka: st[0], 
+            reference:object.href, 
+            images:getImages($(elem)),
+            site:'zapchastuga',
+            dateCreate:new Date().toLocaleString()
+            };
+        }
     }).toArray())	
   })		
 };
@@ -114,6 +120,7 @@ function parse(callback){
           async.map(createOneArray(res), getObjects, function(err,res){
             if(err){callback(err,null); return false;}
             log.info('Parsing zapchastuga done');
+            console.log('Parsing zapchastuga done');
             callback(null,createOneArray(res));      
           });
         });

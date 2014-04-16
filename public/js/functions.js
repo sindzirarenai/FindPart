@@ -1,9 +1,9 @@
-function changeNameInputType(){
-  if ($('#nameType').prop("checked")==true) { 
+$(document).on('change', 'input#name-type',function(){
+  if ($('#name-type').prop("checked")==true) { 
     $('#name').prop("disabled", true);
-    $('#nameInput').prop("disabled", false);    
+    $('#name-input').prop("disabled", false);    
   } else {
     $('#name').prop("disabled", false);
-    $('#nameInput').prop("disabled", true);       
+    $('#name-input').prop("disabled", true);       
   }
-}
+})

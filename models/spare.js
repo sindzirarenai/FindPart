@@ -23,7 +23,8 @@ var spare = new Schema({
 	dateCreate:Date,
 	dateUpdate: Date,
 	about:String,
-	reference:String	
+	reference:String,
+  site:String	
 });
 
 
@@ -55,14 +56,19 @@ spare.statics.selectUniqueByField=function(field, callback){
   Spare.distinct(field, callback);
 }
 
+spare.statics.selectSparesByFields=function(fields, callback){
+  Spare
+    .where()
+    .and(fields)
+    .exec(callback);
+}
+
 spare.statics.selectUniqueByFieldAndValue=function(query, callback){
   Spare
     .where()
     .and(query.param)
     .distinct(query.field)
-    .exec(function(err,res){
-      callback(err,res);
-    });
+    .exec(callback);
 }
 
 var Spare = mongoose.model('Spare', spare);

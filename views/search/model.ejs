@@ -1,10 +1,7 @@
     <label for="model">
            Модель
-            <select id ="model" class="width-90" name="model"
-             onchange="javascript:filter('модель', 'model-year','model.year',
-                                  [{'model.name':this.value},
-                                  {marka:document.getElementById('marka').value}])">
-              <option> Выберите марку </option>
+            <select id ="model-name" class="width-90" name="model.name">
+              <option value="all"> Выберите марку </option>
             </select>
           </label>
           
