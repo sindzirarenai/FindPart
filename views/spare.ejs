@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<% layout('layout') -%>
+<div class="unit-centered unit-90">
+<div class="units-row units-split">
+  <div class="unit-50">
+    <p>
+      <b class='title'>Название запчасти:</b> <%- spare.name %> 
+    <p>
+      <b class='title'>Цена:</b> <%-spare.price%> 
+    <p>
+      <b class='title'>Код:</b> <%-spare.code%>   
+    <p>  
+      <b class='title'>Тип запчасти:</b> <%-spare.section%>   
+    <p>
+      <b class='title'>Марка:</b> <%-spare.marka%>   
+    <p>
+      <b class='title'>Модель:</b> <%-spare.model.name%>   
+    <p>
+      <b class='title'>Год:</b> <%-spare.model.year%>   
+    <p>
+      <b class='title'>Дополнительная информация:</b> <%-spare.about%>   
+    <p>
+      <b class='title'>Дата создания объявления:</b> <%-spare.dateCreate%>   
+    <p>
+      <b class='title'>Источник:</b> <%-spare.site%>   
+    <p>
+      <b class='title'>Ссылка:</b> <a href=<%-spare.reference%>><%-spare.reference%></a>     
+  </div>
+  <div class="unit-50">
+    <b class='title'>Фото:</b> 
+    <% for(var i=0; i<spare.images.length; i++) {%>
+      <img src=<%= spare.images[i] %>></img>
+    <% } %> 
+  </div>
+</div>
+</div>
+  
+  
+  
+  
+  
+  

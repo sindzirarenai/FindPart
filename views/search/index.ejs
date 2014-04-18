@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<div class="unit-centered unit-80" id="form-search">
+  <form method="GET" action="/search" class="forms" id="search-form">
+    <fieldset  style="margin:0">
+      <legend><h4>Поиск запчастей</h4></legend>
+      <div class="units-row units-split">
+        
+        <div class="unit-33">
+          <label for="name">
+            OEM-код
+            <input type="text" name="code" class="width-90">
+          </label>
+          <%-partial ("name") -%>
+        </div>
+        
+        <div class="unit-33">
+          <%-partial ("marka") -%>
+          <%-partial ("model") -%>
+          <%-partial ("year") -%>
+        </div>
+          
+        <div class="unit-33">
+          <!--<label for="motor">
+            Тип двигателя
+            <input type="text" name="motor" class="width-90">
+          </label>
+          <label for="kuzov">
+            Тип кузова
+            <input type="text" name="kuzov" class="width-90">
+          </label>
+          <label for="city">
+            Город
+            <select class="width-90"  name="city">
+              <option>Город</option>
+            </select>
+          </label>-->
+        </div>
+        
+      </div>
+      <input type="submit" class="btn btn-blue" value="Искать" id="search-button">
+    </fieldset>
+  </form>
+<div>
+  

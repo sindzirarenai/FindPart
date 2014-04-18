@@ -4,12 +4,16 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/css/kube.min.css' />
     <link rel='stylesheet' href='/css/style.css' />
+    <script src = '/js/jquery-1.11.0.min.js'></script>    
+    <script src = '/js/filter.js'></script>
+    <script src = '/js/functions.js'></script>
+    <script src = '/js/search.js'></script>
   </head>
   <body>
     <div class="units-row" id="body">
       <div class="unit-centered" id="header">
         <hgroup>
-          <h3 align="center"><%= title %></h3>
+          <h3 align="center"><a href="../" class='white'><%= title %></a></h3>
           <h3 class="subheading" align="center">Welcome to <%= title %></h3>
       </div>
       

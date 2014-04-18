@@ -1,12 +1,26 @@
-Spare = require('./controllers/index'),
- spare = new Spare();
+Search = require('./controllers/search'),
+ search= new Search();
+Spare = require('./controllers/spare'),
+  spare = new Spare();
+
 
 module.exports = function(app) {
 
   app.get('/', function(req,res, next){
-    spare.index(req,res);
+    search.index(req,res);
   });
 
+  app.get('/filter', function(req,res,next){
+    search.filter(req, res);
+  });
+  
+  app.get('/search', function(req,res,next){
+    search.find(req, res);
+  });
+  
+  app.get('/spare/:id', function(req,res,next){
+    spare.index(req,res);
+  })
   
  /* app.get('/login', require('./login').get);
   app.post('/login', require('./login').post);

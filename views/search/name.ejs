@@ -1,0 +1,14 @@
+ <!DOCTYPE html>     
+ <label for="name">
+  Название запчасти
+  <select id ="name" class="width-90" name="spare" >
+    <option value="all"> Все </option>
+    <% for(var i=0; i<name.length; i++) {%>
+      <option><%= name[i] %></option>
+    <% } %>
+  </select>
+  <br>
+  <input id="name-type" name="name-type" type="checkbox">Ввести название</input>
+  <br>
+  <input id="name-input" name="name-input" type="text" disabled class="width-90"></input>
+ </label>

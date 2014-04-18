@@ -11,5 +11,7 @@
 		{
 			"name":"zapchastuga",
 			"url":"http://zapchastuga.ru/"}
-	]
+	],
+  
+  "loadDir": "public/img"
 }
