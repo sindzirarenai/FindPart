@@ -4,6 +4,7 @@ cheerio = require('cheerio');
 config = require('../config');
 async = require('async');
 download = require('download');
+date = require('../lib/date');
 
 function parseName(td){
   var regName= new RegExp(/.*?<br>/),
@@ -17,9 +18,11 @@ function parseName(td){
 }
 
 function parseModel(model){
-  var yearFindIndex = model.search(new RegExp(/\(\d{4}--.*\)/));
-  return {model:yearFindIndex!=-1?model.substring(0,yearFindIndex-1):model, 
-          year: yearFindIndex!=-1?model.substring(yearFindIndex+1, model.length-1).replace(new RegExp("\-{2}"),'-'):undefined};
+  var regYearModel = new RegExp(/\d{4}\s?-{1,2}\s?\d*/);
+  var indexSearch = model.search(regYearModel);   
+  var year= (indexSearch!=-1)?regYearModel.exec(model)[0].replace(new RegExp("\-{2}"),'-'):undefined;
+  var model=(indexSearch!=-1)?model.substring(0,indexSearch-2):model;
+  return {model:model, year:year};          
 }
 
 /*get one array from array of arrays*/
@@ -58,21 +61,10 @@ function getProds(object, callback){
     }).toArray());
   })
 }
-	
-  
-function getImages(elem){
-  return $(elem).find('#single_image').map(function(i,item){
-    $image = $(this).attr('href');
-    var nameImg = new RegExp(/p=\d*/).exec($image)[0];
-    nameImg=nameImg.substring(2,nameImg.length);
-    download({url:config.get("parsers")[0].url+$image, name:nameImg},config.get('loadDir'));
-    return config.get('loadDir')+'/'+nameImg;
-  }).toArray();	
-}
+
 
 /*get object from str, tr(excpet tr=0, header), td, get image*/ 		
 function getObjects(object, callback){
-
   request(config.get("parsers")[0].url+object.href, function (err, response, body){ 
     if(err){callback(err,null); return false;}
     $=cheerio.load(body);  
@@ -83,24 +75,21 @@ function getObjects(object, callback){
         var td=[];   																				
           $(elem).find('td').each(function(i,elem){
             td.push($(this).html());
-          });									
+          });			
+          $(elem).find('#single_image').each(function(i,elem){
+            img.push(config.get("parsers")[0].url+$(this).attr('href'));
+          });						
           var st = object.str.split('~~'),	
               nameParsing=parseName(td[0]),	
-              modelParsing = parseModel(st[1]);
+              modelParsing = parseModel(st[1]);              
           return{
-            name:nameParsing.name, 
-            code: nameParsing.code, 
-            about:nameParsing.about, 
-            price:td[2], 
-            section:st[2], 
-            model: {name: modelParsing.model,
-              year:modelParsing.year}, 
-            marka: st[0], 
-            reference:object.href, 
-            images:getImages($(elem)),
-            site:'zapchastuga',
-            dateCreate:new Date().toLocaleString()
-            };
+            name:nameParsing.name, code: nameParsing.code, 
+            about:nameParsing.about, price:td[2], section:st[2], 
+            model: {name: modelParsing.model, year:modelParsing.year}, 
+            marka: st[0], reference:config.get("parsers")[0].url+object.href, 
+            images:img, site:'zapchastuga',
+            dateCreate:date.getDateInFormat(new Date())
+          };
         }
     }).toArray())	
   })		

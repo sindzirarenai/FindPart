@@ -20,8 +20,8 @@ var spare = new Schema({
   },
 	marka:String,
 	city:String,
-	dateCreate:Date,
-	dateUpdate: Date,
+	dateCreate:String,
+	dateUpdate:String,
 	about:String,
 	reference:String,
   site:String	
@@ -50,6 +50,10 @@ spare.statics.addFromParsing= function(callback){
       callback(err, null);
     }
   });
+}
+
+spare.statics.selectByID=function(id, callback){
+  Spare.findById(id).exec(callback);
 }
 
 spare.statics.selectUniqueByField=function(field, callback){

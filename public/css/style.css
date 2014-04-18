@@ -7,11 +7,6 @@ body {
   background-color:#C4E0F8; 
 }
 
-a, a:hover{
-  color:#ffffff;
-  font-style:none;
-}
-
 #body{   
     width:100%;
     background-color:#F5FFFA;
@@ -28,13 +23,13 @@ a, a:hover{
   border-width:2px;
   border-color: #C4E0F8;
   border-radius:10px;
-  
 }
+
 #form-search{
     padding-top:10px;
     /*background-color:#B0C4DE;*/
 }
 
-h3{
+h3, .white{
   color:#ffffff;
 }
