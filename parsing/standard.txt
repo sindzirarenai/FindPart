@@ -1,12 +1,12 @@
 	code: 51717022966||MR221934||...
-	name: только название, без скобок,
+	name: только название, без скобок, upperCase
 	price: только сумма, без валюты,
 	section:,
 	model:{
-    		name: без скобок,
+    		name: без скобок,upperCase
    		year:без скобок, интервал. 2001-2006||2001-
   	},
-	marka:,
+	marka: upperCase,
 	city:,
 	dateCreate:,
 	dateUpdate:,

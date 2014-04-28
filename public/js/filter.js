@@ -29,6 +29,9 @@ function filter(wordForEmpty, field, id, arrayParamValue){
           }
         }else{
           $element.append("<option value='all'>Выбрать "+wordForEmpty+"</option>");  
-        }        
+        } 
+        var params='';
+        for (var t in arrayParamValue){params+='&param'+t};
+        history.pushState(null, '','/filter?field=model.name&param%5B0%5D%5Bmarka%5D=ACURA');      
       })
 }

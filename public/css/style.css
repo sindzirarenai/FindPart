@@ -33,3 +33,41 @@ body {
 h3, .white{
   color:#ffffff;
 }
+ul#items{
+  list-style:none;
+}
+
+ol#pagination {
+  position: relative;
+  left: -9px;
+  margin-left: 0;
+  list-style: none;
+}
+ol#pagination:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+ol#pagination li {
+  float: left;
+  margin-right: 2px;
+}
+ol#pagination li{
+  display: block;
+  padding: 7px 9px;
+  line-height: 1;
+  border-radius: 3px;
+  color: #0f0f0f;
+  text-decoration: none;
+  cursor:pointer;
+}
+ol#pagination .current {
+  border: 1px solid #ddd;
+}
+
+ol#pagination li:focus,
+ol#pagination li:hover {
+  text-decoration: none;
+  background-color: #3d58a8;
+  color: #fff;
+}

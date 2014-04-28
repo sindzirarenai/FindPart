@@ -10,8 +10,7 @@ Search.prototype.index = function(req, response){
     SpareModel.selectUniqueByField, 
     function(err,res){
       if(err) {
-        response.send('500',err);
-        response.end();
+        response.next();
       }else {
         response.render(
           'index', 
@@ -25,19 +24,19 @@ Search.prototype.index = function(req, response){
 Search.prototype.find = function(req, response){
   async.map(['name', 'code', 'marka', 'model.name', 'model.year'],
     function(elem, callback){
-      if(elem=='name' && req.param(elem) && req.param('input-type')){
-        callback(null, JSON.parse('{"name": "/'+req.param('name-input')+'/i"}'));
+      if(elem=='name' && (req.param('name-input')||req.param('name')!='all' ) ){
+        if(req.param('name-type') ) callback(null, {name: new RegExp(req.param('name-input')+'.*',"i")});
+        else  callback(null, JSON.parse('{"name": "'+req.param('name')+'"}'));
       }else{
-        if (req.param(elem)&& req.param(elem)!='all' ){
-          callback(null,JSON.parse('{"'+elem+'":"'+req.param(elem)+'"}'));
-        }else{
-          callback(null,null);
-        }}},
+        if (req.param(elem)&& req.param(elem)!='all' ) callback(null,JSON.parse('{"'+elem+'":"'+req.param(elem)+'"}'));
+        else callback(null,null);
+      }
+    },
     function(err,res){
       SpareModel.selectSparesByFields(res,
         function(err,res){
         if(err) {
-            response.json('500',err);
+            response.next();
           }else {
             response.json(JSON.stringify(res));
           }
@@ -55,7 +54,7 @@ Search.prototype.filter = function(req, response){
      value: req.query.value},  
     function(err,res){
       if(err) {
-        response.send('500',err);
+        response.next();
       }else {
         response.send("'"+res+"'");
       }

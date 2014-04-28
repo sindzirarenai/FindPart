@@ -3,7 +3,6 @@ request = require('request');
 cheerio = require('cheerio');
 config = require('../config');
 async = require('async');
-download = require('download');
 date = require('../lib/date');
 
 function parseName(td){
@@ -83,10 +82,11 @@ function getObjects(object, callback){
               nameParsing=parseName(td[0]),	
               modelParsing = parseModel(st[1]);              
           return{
-            name:nameParsing.name, code: nameParsing.code, 
+            name:nameParsing.name.toUpperCase(), code: nameParsing.code, 
             about:nameParsing.about, price:td[2], section:st[2], 
-            model: {name: modelParsing.model, year:modelParsing.year}, 
-            marka: st[0], reference:config.get("parsers")[0].url+object.href, 
+            model: {name: modelParsing.model.toUpperCase(), year:modelParsing.year}, 
+            marka: st[0].toUpperCase(), 
+            reference:config.get("parsers")[0].url+object.href, 
             images:img, site:'zapchastuga',
             dateCreate:date.getDateInFormat(new Date())
           };
