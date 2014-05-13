@@ -4,13 +4,12 @@ var SpareModel = require('../../models/spare');
 function Spare(){
 }
 
-Spare.prototype.index = function(req, response){
+Spare.prototype.index = function(req, response, next){
   SpareModel.selectByID(req.params.id, function (err,res){
     if(err) {
-      response.send('500',err);
-      response.end();
+      next(err);
     }else{
-      response.render('spare',{spare:res, title:'FindSparePart'});
+      response.render('spare',{spare:res, title:res.name});
     }    
     return true;
   })

@@ -5,23 +5,23 @@ function Search(){
   var fields = ['name', 'model','marka'];
 }
 
-Search.prototype.index = function(req, response){
+Search.prototype.index = function(req, response, next){
   async.map(['name', 'marka'],
     SpareModel.selectUniqueByField, 
     function(err,res){
       if(err) {
-        response.next();
+        next(err);
       }else {
         response.render(
-          'index', 
-          {title:'FindSparePart', name:res[0], marka:res[1]});     
+          'search', 
+          { title:'FindSparePart', name:res[0], marka:res[1]});     
       }
       return true;
     })
   return false;
 }
 
-Search.prototype.find = function(req, response){
+Search.prototype.find = function(req, response, next){
   async.map(['name', 'code', 'marka', 'model.name', 'model.year'],
     function(elem, callback){
       if(elem=='name' && (req.param('name-input')||req.param('name')!='all' ) ){
@@ -36,29 +36,28 @@ Search.prototype.find = function(req, response){
       SpareModel.selectSparesByFields(res,
         function(err,res){
         if(err) {
-            response.next();
+            next(err);
           }else {
-            response.json(JSON.stringify(res));
+            response.end(JSON.stringify(res));
           }
-          response.end();
           return true
         })
     }) 
   return false;
 }
 
-Search.prototype.filter = function(req, response){
+Search.prototype.filter = function(req, response, next){
   SpareModel.selectUniqueByFieldAndValue(
     {field:req.query.field, 
      param:req.query.param, 
      value: req.query.value},  
     function(err,res){
       if(err) {
-        response.next();
+       next(err);
+       response.end();
       }else {
-        response.send("'"+res+"'");
+        response.end("'"+res+"'");
       }
-      response.end();
       return true;
     });
     return false;

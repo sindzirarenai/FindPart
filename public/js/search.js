@@ -7,12 +7,8 @@ $(document).on('submit', 'form#search-form',function(){
   $.ajax({
       method:$this.attr('method'),
       url:$this.attr('action'),
-      dataType:'json',
-      data:$this.serialize(),   
-      error:function(error){
-        alert('Error: '+error.message);
-      },         
-      success: function(data){    
+      data:$this.serialize(),          
+      success: function(data){  
         data = JSON.parse(data); 
         $('ol#pagination').empty(); 
         $results = $('ul#items');
@@ -30,7 +26,7 @@ $(document).on('submit', 'form#search-form',function(){
             $table.append(
               "<tr>"+
               "<td>"+(j+1)+"</td>"+
-              "<td><a href=/spare/"+data[j]._id+">"+data[j].name+"</a></td>"+
+              "<td><a href=/search/spare/"+data[j]._id+" target='_blank'>"+data[j].name+"</a></td>"+
               "<td>"+data[j].price+"</td>"+
               "<td>"+images+"</td>"+
               "<td>"+data[j].dateCreate+"</td>"+

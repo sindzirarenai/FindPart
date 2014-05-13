@@ -4,7 +4,9 @@
 	},
 	
 	"mongoose":{
-		"url":"mongodb://localhost/findSpare"
+		"url":"mongodb://localhost/findSpare",
+    "db":"findSpare",
+    "collection":"sessions"
 	},
 	
 	"parsers":[
@@ -13,6 +15,13 @@
 			"url":"http://zapchastuga.ru/"}
 	],
   
-  "loadDir": "public/img"
-
+  "session":{
+    "secret": "YellowLemonTree",
+    "key":"sid",
+    "cookie":{
+      "path":"/",
+      "httpOnly":true,
+      "maxAge":null
+    }
+  }
 }

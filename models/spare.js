@@ -1,12 +1,13 @@
 var Parser = require('../parsing');
 var mongoose = require('../lib/db'),
   Schema = mongoose.Schema;
+var log = require('../lib/log')(module);
 
 var spare = new Schema({
-	code: String,
+	code:String,
 	name:{
 		type:String,
-		required:true
+		required:true,
 	},
 	price:{
 		type: String,
@@ -23,19 +24,23 @@ var spare = new Schema({
 	dateCreate:String,
 	dateUpdate:String,
 	about:String,
-	reference:String,
+	reference:{
+    type:String,
+    unique:true,
+    required:true
+  },
   site:String	
 });
 
 
 
-spare.statics.deleteAll=function(){
+spare.statics.deleteAll=function(callback){
   Spare.remove({},function(err,res,opt){
     if(err) {
       log.error(err.message);
-      return false;
+      callback(err,null);
     }
-    return true;
+    callback(null,true);
   });
 }
 
@@ -46,7 +51,6 @@ spare.statics.addFromParsing= function(callback){
       Spare.create(res, callback);
     }else{
       log.error(err);
-      console.log(err);
       callback(err, null);
     }
   });
@@ -57,14 +61,23 @@ spare.statics.selectByID=function(id, callback){
 }
 
 spare.statics.selectUniqueByField=function(field, callback){
-  Spare.distinct(field, callback);
+  Spare
+  .where()
+  .distinct(field)
+  .exec(function(err,res){
+    if(err) callback(err,null);
+    else callback(null, res.sort());
+  });
 }
 
 spare.statics.selectSparesByFields=function(fields, callback){
   Spare
     .where()
     .and(fields)
-    .exec(callback);
+    .exec(function(err,res){
+      if(err) callback(err,null);
+      else callback(null, res.sort());
+    });
 }
 
 spare.statics.selectUniqueByFieldAndValue=function(query, callback){
@@ -72,7 +85,10 @@ spare.statics.selectUniqueByFieldAndValue=function(query, callback){
     .where()
     .and(query.param)
     .distinct(query.field)
-    .exec(callback);
+    .exec(function(err,res){
+      if(err) callback(err,null);
+      else callback(null, res.sort());
+    });
 }
 
 var Spare = mongoose.model('Spare', spare);

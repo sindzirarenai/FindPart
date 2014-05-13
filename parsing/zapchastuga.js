@@ -1,4 +1,4 @@
-log = require ('../lib/log');
+log = require ('../lib/log')(module);
 request = require('request');
 cheerio = require('cheerio');
 config = require('../config');
@@ -65,7 +65,7 @@ function getProds(object, callback){
 /*get object from str, tr(excpet tr=0, header), td, get image*/ 		
 function getObjects(object, callback){
   request(config.get("parsers")[0].url+object.href, function (err, response, body){ 
-    if(err){callback(err,null); return false;}
+    if(err){callback(err,null);return false;}
     $=cheerio.load(body);  
     callback(null, 
       $("table.prods_table").find('tr').map(function(i, elem){
@@ -76,11 +76,11 @@ function getObjects(object, callback){
             td.push($(this).html());
           });			
           $(elem).find('#single_image').each(function(i,elem){
-            img.push(config.get("parsers")[0].url+$(this).attr('href'));
+            img.push($(this).attr('href'));
           });						
           var st = object.str.split('~~'),	
               nameParsing=parseName(td[0]),	
-              modelParsing = parseModel(st[1]);              
+              modelParsing = parseModel(st[1]);             
           return{
             name:nameParsing.name.toUpperCase(), code: nameParsing.code, 
             about:nameParsing.about, price:td[2], section:st[2], 
@@ -107,9 +107,8 @@ function parse(callback){
         async.map(createOneArray(res), getProds, function(err,res){
           if(err){callback(err,null); return false;}
           async.map(createOneArray(res), getObjects, function(err,res){
-            if(err){callback(err,null); return false;}
+            if(err){ console.log('here'); callback(err,null);return false;}
             log.info('Parsing zapchastuga done');
-            console.log('Parsing zapchastuga done');
             callback(null,createOneArray(res));      
           });
         });
