@@ -1,3 +1,19 @@
+<!DOCTYPE html>
 <% layout('layout') -%>
-<%-partial ('search/index') -%>
-<%-partial ('results') -%>
+
+<form method="POST" action="/" class="forms" id="login-form">
+  <div class="unit-centered unit-30" id ='enter'>
+    <fieldset style="margin:0">
+    <legend><h4>Вход в систему</h4></legend>
+    <mark class="error" style="display:none">Неверный логин и/или пароль</mark>
+      <label for="username">
+        Логин: <input type="text" name="username" class="width-100"></input>
+      </label>
+      <label>
+        Пароль:
+        <input type="password" name="password" class="width-100"></input>
+      </label>
+      <input type="submit" id='enter-button' class="btn btn-blue" value="Вход">
+    </fieldset>
+  </div>
+</form>

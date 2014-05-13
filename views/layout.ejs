@@ -4,26 +4,35 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/css/kube.min.css' />
     <link rel='stylesheet' href='/css/style.css' />
-    <script src = '/js/jquery-1.11.0.min.js'></script>    
+    <script src = '/js/lib/jquery-1.11.0.min.js'></script> 
+    <script src="//browserstate.github.io/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
+    <script src="/js/lib/easypaginate.js"></script> 
     <script src = '/js/filter.js'></script>
     <script src = '/js/functions.js'></script>
     <script src = '/js/search.js'></script>
+    <script src = '/js/login.js'></script>
+    <script src = '/js/user.js'></script>
   </head>
   <body>
     <div class="units-row" id="body">
       <div class="unit-centered" id="header">
-        <hgroup>
-          <h3 align="center"><a href="../" class='white'><%= title %></a></h3>
-          <h3 class="subheading" align="center">Welcome to <%= title %></h3>
+       <hgroup>
+          <h3 align="center"><a href="/search" class='white'>FindSparePart</a></h3>
+          <h3 class="subheading white" align="center">Welcome to FindSparePart</h3>
+          <div align="right" id="hello" class="white">
+          <% if (user==null) {var username="Гость"} else {var username = '<a class="white" href="/user">'+ user.username+'</a>'} %>
+           Здравствуйте, <%- username %>
+           <% if(user!=null){%> <a class='white' href='' onclick='javascript:logOut()'>Выйти</a> <%}%>
+          </div>
       </div>
       
       <%-body -%>
-      
-      <div class="unit-centered" id="footer">
-        <hgroup>
-          <h4 align="center">PS-427/sindzirarenai</h4>
-          <h4 class="subheading" align="center">Welcome to <%= title %></h4>
-      </div>
-    </div>
+    </div>  
+    <div class='buffer'></div>     
+    <footer class="unit-centered" id="footer">
+      <hgroup>
+        <h4 align="center">PS-427/sindzirarenai</h4>
+        <h4 class="subheading" align="center">Welcome to <%= title %></h4>
+    </footer>
   </body>
 </html> 

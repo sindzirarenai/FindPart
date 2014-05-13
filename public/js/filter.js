@@ -13,7 +13,7 @@ $(document).on('change', 'select#model-name',function(){
 
 function filter(wordForEmpty, field, id, arrayParamValue){
     $.get(
-      "/filter",
+      "/search/filter",
       {
         field: field,
         param:arrayParamValue
@@ -29,6 +29,5 @@ function filter(wordForEmpty, field, id, arrayParamValue){
           }
         }else{
           $element.append("<option value='all'>Выбрать "+wordForEmpty+"</option>");  
-        }        
-      })
-}
+        } 
+})};

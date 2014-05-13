@@ -1,5 +1,5 @@
 async = require ('async');
-log = require ('../lib/log');
+log = require ('../lib/log')(module);
 
 function Parser(sites){
   this.sites = sites;
@@ -24,8 +24,3 @@ Parser.prototype.getNew = function(callback){
 } 
 
 module.exports = Parser;
-/*
-parser = new Parser(["zapchastuga"]);
-parser.getNew(function (err,res){
-  console.log(res[125].name);
-});*/
