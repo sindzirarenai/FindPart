@@ -18,8 +18,10 @@ Auth.prototype.getUser = function(req, res, next){
 Auth.prototype.checkAuth = function(req,res,next){
   if(!req.session.user){
     res.redirect('/');
+    res.end();
+  }else{
+    next();
   }
-  next();
 }
 
 module.exports = Auth;

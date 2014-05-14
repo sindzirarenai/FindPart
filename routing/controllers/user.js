@@ -36,8 +36,10 @@ User.prototype.enter = function(req,response, next){
 User.prototype.logOut = function(req,response,next){
   if(req.session.user){
     req.session.destroy();
+    //response.redirect('/');
   }
-  res.end();
+  response.end();
+  return true;
 }
 
 User.prototype.addUser = function(req,response, next){

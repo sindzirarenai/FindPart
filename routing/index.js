@@ -33,7 +33,7 @@ module.exports = function(app) {
     user.enter(req,res,next);
   })
   
-  app.post('/logout',auth.checkAuth, function(req,res, next){
+  app.post('/logOut', function(req,res, next){
     user.logOut(req,res,next);
   })
   

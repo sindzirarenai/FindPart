@@ -29,7 +29,7 @@ $(document).on('submit', 'form#login-form',function(){
 function logOut(){
   $.ajax({
     method:'POST',
-    url:'/logout',
+    url:'/logOut',
     complete:function(){
       window.location.href = '/';
     }
