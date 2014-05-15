@@ -26,13 +26,13 @@ $(document).on('submit', 'form#login-form',function(){
   return false;
 }) 
 
-function logOut(){
+$(document).on('click', 'a#button-logOut',function(){
   $.ajax({
     method:'POST',
     url:'/logOut',
     complete:function(){
-      window.location.href = '/';
+      window.location.replace('/');
     }
   })
   return false;
-}
+})

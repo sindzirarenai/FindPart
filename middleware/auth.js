@@ -17,11 +17,20 @@ Auth.prototype.getUser = function(req, res, next){
 
 Auth.prototype.checkAuth = function(req,res,next){
   if(!req.session.user){
+    res.render('error',{title:'Error', status:401, message:'Unauthorized'});
     res.redirect('/');
-    res.end();
   }else{
     next();
   }
+}
+
+Auth.prototype.checkAdmin = function(req,res,next){
+  if(req.user.role!='admin'){
+    res.render('error',{title:'Error', status:403, message:'Forbidden'});
+    //res.redirect('/');
+  }else{
+    next();
+  } 
 }
 
 module.exports = Auth;

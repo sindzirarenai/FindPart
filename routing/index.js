@@ -41,8 +41,21 @@ module.exports = function(app) {
     user.index(req,res,next);
   })
   
-  app.post('/user/add', auth.checkAuth, function (req, res, next){
+  app.post('/user/add', auth.checkAdmin, function (req, res, next){
     user.addUser(req, res, next);
+  }) 
+  
+  app.get('/user/profile', auth.checkAuth, function(req,res,next){
+    user.profile(req,res,next);
   })
+  
+  app.get('/user/manager', auth.checkAdmin, function(req,res,next){
+    user.manager(req,res,next);
+  })
+  
+  app.get('/user/settings', auth.checkAdmin, function(req,res,next){
+    user.settings(req,res,next);
+  })
+  
   
 };

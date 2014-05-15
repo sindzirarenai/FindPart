@@ -1,2 +1,23 @@
+<!DOCTYPE html>
 <% layout('layout') -%>
-<%-partial ('user/index') -%>
+<div class="units-row" id='menu'>
+  <div class="unit-20">
+    <nav class="nav nav-stacked" id='user-menu'>
+      <ul>
+        <% var arrayLinks =[]; %>
+        <% arrayLinks.push({link:'profile', message:'Профиль'});%>
+        <% arrayLinks.push({link:'manager',message:'Управление пользователями', admin:true});%>
+        <% arrayLinks.push({link:'settings', message:'Настройка системы', admin:true});%>
+        <% for(var i=0; i<arrayLinks.length; i++){%>
+        <%  if((arrayLinks[i].admin && user.role=='admin')||(!arrayLinks[i].admin)){ %>
+        <%  if(arrayLinks[i].link==activeLink){ %> <%- '<li  class="active"><a href="/user/'+arrayLinks[i].link+'">'+arrayLinks[i].message+'</a></li>' %>
+        <%  } else{%> <%- '<li> <a href="/user/'+arrayLinks[i].link+'">'+arrayLinks[i].message+'</a></li>' %> <%};%>
+        <%}}%>
+      </ul>
+    </nav>
+  </div>
+  <div  class="unit-60">
+    <%-partial ("user/"+activeLink) -%>
+  </div> 
+
+</div>

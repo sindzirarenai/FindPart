@@ -39,6 +39,23 @@ html,body {
   font-size:14px;
 }
 
+a:hover, #menu a:hover{
+  text-decoration:underline;
+  color: #0000FF;
+}
+
+#user-menu a:hover{
+  background-color:#D7DCFE;
+  color: #7584F5   ;
+}
+
+a{
+  text-decoration:none;
+}
+
+#header a:hover{
+  color:#ffffff;
+}
 
 #header #hello{
   font-weight:bold;

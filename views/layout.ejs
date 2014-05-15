@@ -21,8 +21,8 @@
           <h3 class="subheading white" align="center">Welcome to FindSparePart</h3>
           <div align="right" id="hello" class="white">
           <% if (user==null) {var username="Гость"} else {var username = '<a class="white" href="/user">'+ user.username+'</a>'} %>
-           Здравствуйте, <%- username %>
-           <% if(user!=null){%> <a class='white' href='' onclick='javascript:logOut()'>Выйти</a> <%}%>
+           Здравствуйте, <%- username %><br>
+           <% if(user!=null){%> <a class='white' href='' id="button-logOut">Выйти</a> <%}%>
           </div>
       </div>
       

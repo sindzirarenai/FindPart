@@ -1,6 +1,7 @@
-function resetForm(){
+function resetFormAdd(){
   $('mark#user').css("display","none");
-  $('mark#password').css("display","none");   
+  $('mark#password').css("display","none");
+  $('mark#passwordRepeat').css("display","none");     
 }
 
 $(document).on('submit', 'form#add-form',function(){
@@ -14,21 +15,19 @@ $(document).on('submit', 'form#add-form',function(){
       complete: function() {
         $(":submit", form).button("reset");
       },
-      statusCode:{
-        200: function(){
-          resetForm();
-          alert('Пользователь добавлен');
-          $this.trigger('reset');  
-        },
-        206:function(XHR){
-          resetForm();
-          $('mark#user').css("display","block");
-        },
-        204:function(XHR){
-          resetForm();
-          $('mark#password').css("display","block");
-        }
-      }
-  })
-  return false;
-}) 
+      success: function(data){
+        resetFormAdd();
+        if(!data){
+          alert('Пользователь был добавлен');
+          $this.trigger('reset');
+        }else{
+          for (var i =0; i<data.length;i++){
+            if(data[i]!=null){
+              $("mark#"+data[i].field).text(data[i].message);
+              $('mark#'+data[i].field).css("display","block");
+            }
+          }
+        }} 
+    })
+   return false;
+})
