@@ -12,7 +12,16 @@
 	"parsers":[
 		{
 			"name":"zapchastuga",
-			"url":"http://zapchastuga.ru/"}
+			"url":"http://zapchastuga.ru/",
+      "catalog":"zapchastuga.ru/catalogue.php"},
+    {
+			"name":"razbor66",
+			"url":"http://www.razbor66.ru",
+      "catalog":"http://www.razbor66.ru/catalog/avtozapchasti/"},
+    {
+			"name":"smtauto",
+			"url":"http://www.smtauto.ru/",
+      "catalog":"http://www.smtauto.ru/parts_used/"}
 	],
   
   "session":{

@@ -63,5 +63,14 @@ Search.prototype.filter = function(req, response, next){
     return false;
 }
 
+Search.prototype.update = function(req, response, next){
+  SpareModel.addFromParsing(function(err,res){
+    if(err){
+      next(err);
+    }else{
+      response.redirect('/search');
+    }
+  })
+}
 
 module.exports = Search;

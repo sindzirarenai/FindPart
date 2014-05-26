@@ -86,8 +86,9 @@ function getObjects(object, callback){
             about:nameParsing.about, price:td[2], section:st[2], 
             model: {name: modelParsing.model.toUpperCase(), year:modelParsing.year}, 
             marka: st[0].toUpperCase(), 
-            reference:config.get("parsers")[0].url+object.href, 
-            images:img, site:'zapchastuga',
+            reference:config.get("parsers")[0].url+object.href,
+            row:i, 
+            images:img, site:config.get("parsers")[0].name,
             dateCreate:date.getDateInFormat(new Date())
           };
         }
@@ -107,9 +108,9 @@ function parse(callback){
         async.map(createOneArray(res), getProds, function(err,res){
           if(err){callback(err,null); return false;}
           async.map(createOneArray(res), getObjects, function(err,res){
-            if(err){ console.log('here'); callback(err,null);return false;}
-            log.info('Parsing zapchastuga done');
-            callback(null,createOneArray(res));      
+            if(err){callback(err,null);return false;}
+            else{log.info('Parsing zapchastuga done');
+            callback(null,createOneArray(res));}      
           });
         });
       });

@@ -1,5 +1,17 @@
 var count_paginator = 20;
 
+$(document).on('click', '#update-button',function(){
+  $('img#load-image').css("display","block");
+  $.ajax({
+    method:'GET',
+    url:'/search/update',
+    success:function(data){
+      alert('Обновление завершено');
+      $('img#load-image').css("display","none");
+    }
+  })
+})
+
 $(document).on('submit', 'form#search-form',function(){
   $this = $('form#search-form');
   $button = $('button#search-button');

@@ -57,5 +57,8 @@ module.exports = function(app) {
     user.settings(req,res,next);
   })
   
+  app.get('/search/update', auth.checkAdmin, function(req,res,next){
+    search.update(req,res,next);
+  })
   
 };

@@ -25,7 +25,7 @@ var user = new Schema({
 });
 
 user.methods.encryptPassword = function(password){
-  return crypto.createHmac('md5',this.salt).update(password).digest('hex');
+  return crypto.createHmac('sha1',this.salt).update(password).digest('hex');
 }
 
 user.virtual('password')

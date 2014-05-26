@@ -24,11 +24,8 @@ var spare = new Schema({
 	dateCreate:String,
 	dateUpdate:String,
 	about:String,
-	reference:{
-    type:String,
-    unique:true,
-    required:true
-  },
+	reference:String,
+  row:Number,
   site:String	
 });
 
@@ -46,9 +43,12 @@ spare.statics.deleteAll=function(callback){
 
 spare.statics.addFromParsing= function(callback){
   var pars = new Parser(["zapchastuga"]);
-  pars.getNew(function (err,res){
-    if (err==null){
-      Spare.create(res, callback);
+  pars.getNew(function (err,spares){
+    if (!err){
+      Spare.deleteAll(function(err,res){
+        if(err){callback(err,null);
+        }else{ Spare.create(spares, callback);}
+      });
     }else{
       log.error(err);
       callback(err, null);
