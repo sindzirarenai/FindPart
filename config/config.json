@@ -20,8 +20,12 @@
       "catalog":"http://www.razbor66.ru/catalog/avtozapchasti/"},
     {
 			"name":"smtauto",
-			"url":"http://www.smtauto.ru/",
-      "catalog":"http://www.smtauto.ru/parts_used/"}
+			"url":"http://www.smtauto.ru",
+      "catalog":"http://www.smtauto.ru/parts_used/"},
+    {
+			"name":"razborka",
+			"url":"http://www.razborka.com.ua/",
+      "catalog":"http://www.razborka.com.ua"}
 	],
   
   "session":{

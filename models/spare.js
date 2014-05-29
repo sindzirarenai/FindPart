@@ -9,10 +9,7 @@ var spare = new Schema({
 		type:String,
 		required:true,
 	},
-	price:{
-		type: String,
-		required:true
-	},
+	price:String,
 	images:Array,
 	section:String,
 	model:{

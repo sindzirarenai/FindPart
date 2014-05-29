@@ -4,18 +4,15 @@ cheerio = require('cheerio');
 config = require('../config');
 async = require('async');
 date = require('../lib/date');
-regexp = require('./regexp/razbor66');
-
-var count=0;
+regexp = require('./regexp/razborka');
 
 function getElementInfo(item, callback){
 request(item, function(err,resp,body){
-count++;
-console.log(count+' '+item);
   if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
   else{
+  console.log(item);
       var elementInfo = regexp(body);
-      callback(null, {
+      var obj ={
         name:elementInfo.name,
         section:elementInfo.section,
         model:elementInfo.model,
@@ -23,28 +20,25 @@ console.log(count+' '+item);
         about:elementInfo.about,
         reference:item,
         code:elementInfo.code,
-        site:config.get("parsers")[1].name,
+        site:config.get("parsers")[3].name,
         images:elementInfo.images,
         dateCreate:date.getDateInFormat(new Date()),
         price:elementInfo.price
-      });
- }
+      }; console.log(obj); callback(null, obj);
+  }
 }); 
 return false; 
 }
 
 function getPageElements(item,callback){
 request(item, function(err,resp, body){
-console.log('do it');
     if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
     else{
+    console.log(item);
       $=cheerio.load(body);
-      var elements=[]
-      $('.product-list').find('li').each(function(i,elem){
-        var href=$(this).find('.product-item').find('.product_link').attr('href');
-        if(href!=undefined){
-          elements.push(config.get("parsers")[1].url+href);
-        }
+      var elements=[];
+      $('#table_data').find('h3').each(function(i,elem){
+        elements.push($(this).find('a').attr('href'));
       })
       async.mapSeries(elements, getElementInfo, callback); 
       return true;
@@ -56,13 +50,14 @@ function getMarkaElements(item, callback){
 request(item, function(err,resp, body){
   if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
   else{
+  console.log(item);
     $=cheerio.load(body);
-    var countPage = Math.floor(parseInt($('#countresultInResult').text())/60)+1;
+    var countPage = Math.floor(parseInt(/\d+/.exec($('.uc_spareshop_textdownform').text())[0])/20)+1;
     var pagesHref=[];
     for(var i=0; i<countPage; i++){
-      pagesHref.push(item+'?&countonpage=60&page='+i);
+      pagesHref.push(item+'?page='+i);
     };
-    async.mapSeries(pagesHref, getPageElements, callback);
+    async.map(pagesHref, getPageElements, callback);
     return true;
   }
 })
@@ -71,17 +66,17 @@ return false;
 
 
 function parse(callback){
-  request(config.get("parsers")[1].catalog, function(err,resp, body){
+  request(config.get("parsers")[3].url, function(err,resp, body){
     if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
     else{
       $=cheerio.load(body);
       var marksHref =[];
-      $("#Marka").find('option').each(function(i, elem){
+      $('.menu').find('li').each(function(i, elem){
         if(i>0){
-          marksHref.push(config.get("parsers")[1].catalog+$('#hiddenValues').find('[attr='+$(this).attr().value+']').attr('url'));
+          marksHref.push(config.get("parsers")[3].catalog+$(this).find('a').attr('href'));
         }
       });
-      async.mapSeries(marksHref, getMarkaElements, callback);
+      async.map(marksHref, getMarkaElements, callback);
       return true;
     }
   })
