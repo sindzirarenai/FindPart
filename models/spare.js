@@ -38,13 +38,14 @@ spare.statics.deleteAll=function(callback){
   });
 }
 
-spare.statics.addFromParsing= function(callback){
-  var pars = new Parser(["zapchastuga"]);
+spare.statics.addFromParsing= function(array, callback){
+  var pars = new Parser(array);
   pars.getNew(function (err,spares){
     if (!err){
       Spare.deleteAll(function(err,res){
         if(err){callback(err,null);
-        }else{ Spare.create(spares, callback);}
+        }else{ log.info("Delete all");
+              Spare.create(spares, callback);}
       });
     }else{
       log.error(err);

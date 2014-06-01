@@ -11,12 +11,11 @@ parse(function(err,res){
 
 /*var reg = require('./parsing/regexp/razbor66');
 reg(null);*/
-
-/*Spare.addFromParsing(function(err,res){
+Spare.addFromParsing(["razborka"],function(err,res){
   if(err) log.error(err);
   log.info('done');
   mongoose.disconnect();
-});*/
+});
 
 /*var parse = require('./parsing/smtauto');
 parse(function(err,res){
@@ -29,11 +28,11 @@ request('http://www.smtauto.ru/parts_used/10/451/17/47/52174713451', function(er
   reg(body);  
 })*/
 
-var parse = require('./parsing/razborka');
+/*var parse = require('./parsing/razborka');
 parse(function(err,res){
   console.log('err='+err+' result='+res.length);
   mongoose.disconnect();
-});
+});*/
 
 /*var reg = require('./parsing/regexp/razborka');
 request('http://www.smtauto.ru/parts_used/10/451/17/47/52174713451', function(err,resp,body){

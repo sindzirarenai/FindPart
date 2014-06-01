@@ -76,8 +76,14 @@ function parse(callback){
           marksHref.push(config.get("parsers")[3].catalog+$(this).find('a').attr('href'));
         }
       });
-      async.map(marksHref, getMarkaElements, callback);
-      return true;
+      async.map(marksHref, getMarkaElements, function(err,res){
+        if(err){ callback(err, null); return false;}
+        else{
+          log.info('Parsing razborka done');
+          callback(err,res);
+          return true;
+        }
+      });
     }
   })
   return false;

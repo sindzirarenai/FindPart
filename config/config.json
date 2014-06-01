@@ -25,7 +25,11 @@
     {
 			"name":"razborka",
 			"url":"http://www.razborka.com.ua/",
-      "catalog":"http://www.razborka.com.ua"}
+      "catalog":"http://www.razborka.com.ua"},
+    {
+			"name":"euroauto",
+			"url":"http://www.euroauto.ru/",
+      "catalog":"http://www.euroauto.ru/?option=com_retaillist"}
 	],
   
   "session":{
