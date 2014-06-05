@@ -8,7 +8,7 @@ regexp = require('./regexp/razborka');
 
 function getElementInfo(item, callback){
 request(item, function(err,resp,body){
-  if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+  if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
   else{
   console.log(item);
       var elementInfo = regexp(body);
@@ -32,7 +32,7 @@ return false;
 
 function getPageElements(item,callback){
 request(item, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
     else{
     console.log(item);
       $=cheerio.load(body);
@@ -48,7 +48,7 @@ request(item, function(err,resp, body){
 
 function getMarkaElements(item, callback){
 request(item, function(err,resp, body){
-  if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+  if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
   else{
   console.log(item);
     $=cheerio.load(body);
@@ -67,7 +67,7 @@ return false;
 
 function parse(callback){
   request(config.get("parsers")[3].url, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
     else{
       $=cheerio.load(body);
       var marksHref =[];

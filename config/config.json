@@ -29,7 +29,7 @@
     {
 			"name":"euroauto",
 			"url":"http://www.euroauto.ru/",
-      "catalog":"http://www.euroauto.ru/?option=com_retaillist"}
+      "catalog":"http://www.euroauto.ru"}
 	],
   
   "session":{

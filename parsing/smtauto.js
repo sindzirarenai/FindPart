@@ -9,7 +9,7 @@ regexp = require('./regexp/smtauto');
 
 function getElementInfo(item, callback){
 request(item, function(err,resp,body){
-  if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+  if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
   else{
       var elementInfo = regexp(body);
       callback(null, {
@@ -33,7 +33,7 @@ return false;
 function parseElements(item, callback){
 console.log(href);
   request(item, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
     else{
       $=cheerio.load(body);
       var arrayHref =[];
@@ -51,7 +51,7 @@ console.log(href);
 function parseHrefs(id, href, callback){
 console.log(href);
   request(href, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
     else{
       $=cheerio.load(body);
       var arrayHref =[];

@@ -9,11 +9,10 @@ regexp = require('./regexp/euroauto');
 
 function getElementInfo(item, callback){
 request(item, function(err,resp,body){
-  if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+  if(err){callback(err,null); return false;}
   else{
-  callback(null, null);
-      //var elementInfo = regexp(body);
-      /*var obj ={
+      var elementInfo = regexp(body);
+      var obj ={
         name:elementInfo.name,
         section:elementInfo.section,
         model:elementInfo.model,
@@ -25,7 +24,7 @@ request(item, function(err,resp,body){
         images:elementInfo.images,
         dateCreate:date.getDateInFormat(new Date()),
         price:elementInfo.price
-      }; console.log(obj); callback(null, obj);*/
+      }; console.log(obj); callback(null, obj);
   }
 }); 
 return false; 
@@ -33,13 +32,15 @@ return false;
 
 function getElements(item, callback){
 request(item, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err){callback(err,null); return false;}
     else{
-    console.log(item);
+console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
-      $('.table parts_table').find('a[text=подробно]').each(function(i, elem){
-          arrayHref.push(config.get("parsers")[4].url+$(this).attr('href'));
+      $('.parts_table').find('a').each(function(i, elem){
+          if(/.*подробно.*/.test($(this))){
+            arrayHref.push(config.get("parsers")[4].catalog+$(this).attr('href'))
+          };
       });
       callback(null, arrayHref);
       return true;
@@ -48,14 +49,21 @@ request(item, function(err,resp, body){
 }
 
 function getPartElements(item,callback){
+if(item.indexOf(' ')){
+  item.replace(' ','+');
+};
 request(item, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err){callback(err,null); return false;}
     else{
-    console.log(item);
+console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
-      $('.group_minus').next(".ulplusminus").find('a').each(function(i, elem){
-          arrayHref.push(config.get("parsers")[4].url+$(this).attr('href'));
+      $('.ulplusminus').each(function(i, elem){
+        if($(this).find('a').length!=0){
+          $(this).find('a').each(function(i,elem){
+            arrayHref.push(config.get("parsers")[4].catalog+$(this).attr('href'));
+          })
+        }
       });
       callback(null, arrayHref);
       return true;
@@ -65,14 +73,14 @@ request(item, function(err,resp, body){
 
 function getSectionElements(item,callback){
 request(item, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err){callback(err,null); return false;}
     else{
-    console.log(item);
+console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
       $('#parts_left').eq(1).find('a').each(function(i, elem){
         if(i%2==0){
-          arrayHref.push(config.get("parsers")[4].url+$(this).attr('href'));
+          arrayHref.push(config.get("parsers")[4].catalog+$(this).attr('href'));
         }
       });
       callback(null, arrayHref);
@@ -84,9 +92,9 @@ request(item, function(err,resp, body){
 
 function getFirmsElements(item,callback){
 request(item, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err){callback(err+' '+resp.statusCode+' '+item,null); return false;}
     else{
-    console.log(item);
+console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
       $('.firms-list').eq(0).find('li').each(function(i, elem){
@@ -108,19 +116,22 @@ function parse(callback){
       getFirmsElements(config.get("parsers")[4].url, callback);
     },
     function(marks, callback){
-      async.map(marks, getFirmsElements(item, callback), function(err,res){callback(err, parsing.createOneArray(res));});
+      async.mapLimit(marks, 1, getFirmsElements, function(err,res){callback(err, parsing.createOneArray(res));});
     },
     function(models, callback){
-      async.map(models, getSectionElements(item, callback), function(err,res){callback(err, parsing.createOneArray(res));});
+    console.log(models+' models');
+      async.mapLimit(models, 2, getSectionElements, function(err,res){callback(err, parsing.createOneArray(res));});
     },
     function(sections, callback){
-      async.map(sections, getPartElements(item, callback), function(err,res){callback(err, parsing.createOneArray(res));});
+    console.log(sections+ ' sections');
+      async.mapLimit(sections,4 , getPartElements, function(err,res){callback(err, parsing.createOneArray(res));});
     },
     function(parts, callback){
-      async.map( parts, getElements(item,callback), function(err,res){callback(err, parsing.createOneArray(res));});
+    console.log(parts+' parts');
+      async.mapLimit( parts, 6, getElements, function(err,res){callback(err, parsing.createOneArray(res));});
     },
     function(elements, callback){
-      async.map(elements, getElementInfo,function(err,res){callback(err, parsing.createOneArray(res));}); 
+      async.mapLimit(elements, 8, getElementInfo, function(err,res){callback(err, parsing.createOneArray(res));}); 
     }
   ],callback);
 }

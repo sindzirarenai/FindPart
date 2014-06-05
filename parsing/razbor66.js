@@ -12,7 +12,7 @@ function getElementInfo(item, callback){
 request(item, function(err,resp,body){
 count++;
 console.log(count+' '+item);
-  if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+  if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
   else{
       var elementInfo = regexp(body);
       callback(null, {
@@ -36,7 +36,7 @@ return false;
 function getPageElements(item,callback){
 request(item, function(err,resp, body){
 console.log('do it');
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
     else{
       $=cheerio.load(body);
       var elements=[]
@@ -54,7 +54,7 @@ console.log('do it');
 
 function getMarkaElements(item, callback){
 request(item, function(err,resp, body){
-  if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+  if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
   else{
     $=cheerio.load(body);
     var countPage = Math.floor(parseInt($('#countresultInResult').text())/60)+1;
@@ -72,7 +72,7 @@ return false;
 
 function parse(callback){
   request(config.get("parsers")[1].catalog, function(err,resp, body){
-    if(err||resp.statusCode!=200){callback(err+' '+resp,null); return false;}
+    if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
     else{
       $=cheerio.load(body);
       var marksHref =[];
