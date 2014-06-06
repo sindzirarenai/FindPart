@@ -1,10 +1,10 @@
-<h4>Профиль пользователя</h4>
-<form method="POST" action="/user/manager/edit/save/<%-user._id%>" class="forms" id="edit-profile">
+
+<form method="POST" action="/user/manager/edit/save/" class="forms" id="edit-form" style="display:none">
       <fieldset style="margin:0">
-        <legend>Редактирование профиля</legend>
+        <legend>Редактирование пользователя</legend>
         <label for="username">
           <mark class="error" style="display:none" id="user"></mark>
-          Логин: <input type="text" id="username" name="username" class="width-100" value=<%-user.username%>>
+          Логин: <input type="text" id="username" name="username" class="width-100"></input>
         </label>
         <input type="button" onclick="document.getElementById('passwordEdit').style.display='block'"value="Изменить пароль"></input>
         <div id="passwordEdit" style="display:none">
@@ -17,8 +17,12 @@
             Повторите новый пароль:<input type="password" name="passwordRepeat" class="width-100"></input>
           </label>
         </div>
-        <br><br>
+        <label for="role">
+          Роль:
+          <br><input type="radio" name="role" value="admin" id="admin"> Администратор
+          <br><input type="radio" name="role" value="user" id="user"> Оператор       
+        </label>
         <input type="submit" id='edit-button' class="btn btn-blue" value="Сохранить">
-        <input type="reset"class="btn btn-blue" value="Отмена" onclick="document.getElementById('passwordEdit').style.display='none';">
+        <input type="reset"class="btn btn-blue" value="Отмена" onclick="document.getElementById('edit-form').style.display='none'; document.getElementById('passwordEdit').style.display='none';">
       </fieldset>
   </form> 

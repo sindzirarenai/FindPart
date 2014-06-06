@@ -2,7 +2,7 @@ var Spare = require('./models/spare');
 var mongoose = require('./lib/db');
 var log = require('./lib/log')(module);
 var request = require('request');
-
+var User = require('./models/user');
 /*var parse = require('./parsing/razbor66');
 parse(function(err,res){
   console.log('err='+err+' result='+res.length);
@@ -39,15 +39,17 @@ request('http://www.smtauto.ru/parts_used/10/451/17/47/52174713451', function(er
   reg(body);  
 })*/
 
-var parse = require('./parsing/euroauto');
+/*var parse = require('./parsing/euroauto');
 parse(function(err,res){
 if(err){console.log(err)}else{
   console.log(res);
   }
   mongoose.disconnect();
-});
+});*/
 
 /*var reg = require('./parsing/regexp/euroauto');
 request('http://www.smtauto.ru/parts_used/10/451/17/47/52174713451', function(err,resp,body){
   reg(body);  
 })*/
+
+User.addUser('popan','16669353','admin',function(err,res){console.log(err);});

@@ -1,44 +1,52 @@
 {
-	"server": {
-		"port": 3333
-	},
-	
-	"mongoose":{
-		"url":"mongodb://localhost/findSpare",
-    "db":"findSpare",
-    "collection":"sessions"
-	},
-	
-	"parsers":[
-		{
-			"name":"zapchastuga",
-			"url":"http://zapchastuga.ru/",
-      "catalog":"zapchastuga.ru/catalogue.php"},
+  "server": {
+    "port": 3333
+  },
+  "mongoose": {
+    "url": "mongodb://localhost/findSpare",
+    "db": "findSpare",
+    "collection": "sessions"
+  },
+  "parsers": [
     {
-			"name":"razbor66",
-			"url":"http://www.razbor66.ru",
-      "catalog":"http://www.razbor66.ru/catalog/avtozapchasti/"},
+      "name": "zapchastuga",
+      "url": "http://zapchastuga.ru/",
+      "catalog": "zapchastuga.ru/catalogue.php"
+    },
     {
-			"name":"smtauto",
-			"url":"http://www.smtauto.ru",
-      "catalog":"http://www.smtauto.ru/parts_used/"},
+      "name": "razbor66",
+      "url": "http://www.razbor66.ru",
+      "catalog": "http://www.razbor66.ru/catalog/avtozapchasti/"
+    },
     {
-			"name":"razborka",
-			"url":"http://www.razborka.com.ua/",
-      "catalog":"http://www.razborka.com.ua"},
+      "name": "smtauto",
+      "url": "http://www.smtauto.ru",
+      "catalog": "http://www.smtauto.ru/parts_used/"
+    },
     {
-			"name":"euroauto",
-			"url":"http://www.euroauto.ru/",
-      "catalog":"http://www.euroauto.ru"}
-	],
-  
-  "session":{
-    "secret": "YellowLemonTree",
-    "key":"sid",
-    "cookie":{
-      "path":"/",
-      "httpOnly":true,
-      "maxAge":null
+      "name": "razborka",
+      "url": "http://www.razborka.com.ua/",
+      "catalog": "http://www.razborka.com.ua"
+    },
+    {
+      "name": "euroauto",
+      "url": "http://www.euroauto.ru/",
+      "catalog": "http://www.euroauto.ru"
     }
-  }
+  ],
+  "session": {
+    "secret": "YellowLemonTree",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
+  },
+  "selectedSites": [
+    "zapchastuga",
+    "smtauto",
+    "euroauto"
+  ],
+  "time": "5"
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
+<div class="unit-100">
 <h4>Управление пользователями</h4>
-<table class="width-100">
+<table class="width-100" id="users">
     <thead>
         <td>Имя</td>
         <td>Роль</td>
@@ -9,38 +10,20 @@
     </thead>
     <tbody>
     <% for (var i=0; i<users.length; i++){%>
-    <tr>
+    <% if(user.username!=users[i].username){%> 
+    <tr>     
         <td><%= users[i].username %></td>
         <td><%= users[i].role%></td>
-        <td><a href ='/users/edit/'>Редактировать</a></td>
-        <td><a href ='/users/delete/'>Удалить</a></td>     
-    </tr>
+        <td><a class="editUser" href="/user/manager/edit/<%-users[i]._id%>"</a>Редактировать</a></td> 
+        <td><a class="deleteUser" href="/user/manager/delete/<%-users[i]._id%>"</a>Удалить</a></td> 
+    </tr>  
+     <%}%>        
     <% }%>
     <tbody>
 </table>
+<div class="unit-60">
+<%-partial ("edit") -%>
+<%-partial ("add") -%>
 
-<form method="POST" action="/user/add" class="forms" id="add-form">
-      <fieldset style="margin:0">
-        <legend>Добавление пользователя</legend>
-        <label for="username">
-          <mark class="error" style="display:none" id="user"></mark>
-          Логин: <input type="text" name="username" class="width-100"></input>
-        </label>
-        <label for="password">
-          <mark class="error" style="display:none" id="password"></mark>
-          Пароль:<input type="password" name="password" class="width-100"></input>
-        </label>
-        <label for="passwordRepeat">
-          <mark class="error" style="display:none" id="passwordRepeat"></mark>
-          Повторите пароль:<input type="password" name="passwordRepeat" class="width-100"></input>
-        </label>
-        <label for="role">
-          Роль:<br>
-          <br><input type="radio" name="role" value="admin"> Администратор
-          <br><input type="radio" name="role" value="user" checked="checked"> Оператор       
-        </label>
-        <input type="submit" id='add-button' class="btn btn-blue" value="Добавить">
-        <input type="reset"class="btn btn-blue" value="Сбросить" >
-      </fieldset>
-  </form> 
-
+</div>
+</div>

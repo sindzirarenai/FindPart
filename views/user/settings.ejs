@@ -1,1 +1,25 @@
 <h4>Настройки системы</h4>
+
+  <form method="GET" action="/user/settings/save" class="forms" id="settings-form">
+      <fieldset style="margin:0">
+        <legend>Настройки</legend>
+        <label for="sites">
+        Выберите сайты для поиска и обновления <br><br>
+          <%for(var i=0; i<sites.length; i++){%>
+          <input type="checkbox" name="<%-sites[i].name%>" <%if(selectedSites.indexOf(sites[i].name)>-1){%>checked<%}%> ><%-sites[i].name%> </input><br>
+          <%}%>
+        </label>
+        <label for="time">
+          Выберите интервал обновления: 
+          <select name="time">
+            <%for(var j=0; j<10; j++){%>
+            <option <%if (time==j){%>selected<%}%>><%-j%></option>
+            <%}%>
+          </select>  
+          дней
+        </label>
+        <input type="submit" id='settings-button' class="btn btn-blue" value="Сохранить">
+        <input type="reset"class="btn btn-blue" value="Отмена">
+      </fieldset>
+  </form> 
+  

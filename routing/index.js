@@ -56,9 +56,20 @@ module.exports = function(app) {
   app.get('/user/settings', auth.checkAdmin, function(req,res,next){
     user.settings(req,res,next);
   })
+ 
+  app.get('/user/manager/edit/:id', auth.checkAdmin, function(req,res,next){
+    user.edit(req,res,next);
+  }) 
   
-  app.get('/search/update', auth.checkAdmin, function(req,res,next){
-    search.update(req,res,next);
+  app.post('/user/manager/edit/save/:id', auth.checkAuth, function(req,res,next){
+    user.editSave(req,res,next);
+  }) 
+   
+  app.get('/user/manager/delete/:id', auth.checkAdmin, function(req,res,next){
+    user.delete(req,res,next);
+  }) 
+  
+  app.get('/user/settings/save', auth.checkAdmin, function(req,res,next){
+    user.settingsSave(req,res,next);
   })
-  
 };

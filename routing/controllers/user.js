@@ -1,4 +1,5 @@
 var UserModel = require('../../models/user');
+config = require('../../config/');
 Validator = require('../../lib/validate'),
   validator = new Validator();
 
@@ -40,7 +41,7 @@ User.prototype.logOut = function(req,response,next){
 }
 
 User.prototype.addUser = function(req,response, next){
-  validator.validateUser(req.param('username'),req.param('password'),req.param('passwordRepeat'),
+  validator.validateUser('true', null,req.param('username'),req.param('password'),req.param('passwordRepeat'),
   function(err,errors){
     if(err){next(err);}
     else{
@@ -72,7 +73,62 @@ User.prototype.manager = function(req,response,next){
 }
 
 User.prototype.settings= function(req,response,next){
-  response.render('user',{title:'Личный кабинет', users:null, activeLink:'settings'});   
+  response.render('user',{title:'Личный кабинет', users:null, activeLink:'settings',sites:config.get("parsers"), selectedSites:config.get("selectedSites"), time:config.get("time")});   
+}
+
+User.prototype.edit= function(req,response,next){
+  UserModel.findUser(req.params.id, function(err,res){
+    if(err){next(err);}
+    else{
+      response.send(JSON.stringify(res));      
+    }
+  })
+}
+
+User.prototype.editSave = function(req,response, next){
+  UserModel.findUser(req.param("id"), function (err,res){
+    if(err){next(err);}
+    else{
+      validator.validateUser(req.param('passwordEnable'),res.username, req.param('username'),req.param('password'),req.param('passwordRepeat'),
+      function(err,errors){
+        if(err){next(err);}
+        else if (!errors){
+          res.update(req.body,function(err,res){
+            if(err){next(err);}
+            else{response.send(null);}
+          })
+        }else{response.send(errors);}
+      })
+    }
+  })
+  return true;
+}
+
+User.prototype.delete = function(req,response, next){
+  UserModel.findUser(req.param("id"),function(err,res){
+    if(err){callback(err,null);}
+    else{
+      res.remove(function(err,res){
+        if(err){callback(err,null)}
+        else{response.end()}
+      })
+    }
+  })
+}
+
+User.prototype.settingsSave = function(req,response, next){
+  var sites = config.get("parsers");
+  var selectedSites=[];
+  for(var i=0; i<sites.length; i++){
+    if(req.param(sites[i].name)){
+      selectedSites.push(sites[i].name);
+    }
+  }
+  config.set("selectedSites", selectedSites);
+  config.set("time",req.param("time"));
+  config.save();
+  response.end();
+  return true;
 }
 
 module.exports = User;

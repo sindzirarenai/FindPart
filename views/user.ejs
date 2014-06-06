@@ -7,7 +7,7 @@
         <% var arrayLinks =[]; %>
         <% arrayLinks.push({link:'profile', message:'Профиль'});%>
         <% arrayLinks.push({link:'manager',message:'Управление пользователями', admin:true});%>
-        <% arrayLinks.push({link:'settings', message:'Настройка системы', admin:true});%>
+        <% arrayLinks.push({link:'settings', message:'Настройки системы', admin:true});%>
         <% for(var i=0; i<arrayLinks.length; i++){%>
         <%  if((arrayLinks[i].admin && user.role=='admin')||(!arrayLinks[i].admin)){ %>
         <%  if(arrayLinks[i].link==activeLink){ %> <%- '<li  class="active"><a href="/user/'+arrayLinks[i].link+'">'+arrayLinks[i].message+'</a></li>' %>
