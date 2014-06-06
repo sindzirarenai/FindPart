@@ -10,7 +10,7 @@ regexp = require('./regexp/euroauto');
 function getElementInfo(item, callback){
 request(item, function(err,resp,body){
   if(err){callback(err,null); return false;}
-  else{
+  else if(body){
       var elementInfo = regexp(body);
       var obj ={
         name:elementInfo.name,
@@ -26,6 +26,7 @@ request(item, function(err,resp,body){
         price:elementInfo.price
       }; console.log(obj); callback(null, obj);
   }
+  callback(null,null);   
 }); 
 return false; 
 }
@@ -33,7 +34,7 @@ return false;
 function getElements(item, callback){
 request(item, function(err,resp, body){
     if(err){callback(err,null); return false;}
-    else{
+    else if(body){
 console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
@@ -44,7 +45,8 @@ console.log(item);
       });
       callback(null, arrayHref);
       return true;
-    }   
+    }
+    callback(null,null);      
   })
 }
 
@@ -54,7 +56,7 @@ if(item.indexOf(' ')){
 };
 request(item, function(err,resp, body){
     if(err){callback(err,null); return false;}
-    else{
+    else if(body){
 console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
@@ -67,14 +69,15 @@ console.log(item);
       });
       callback(null, arrayHref);
       return true;
-    }   
+    }
+    callback(null,null);      
   })
 }
 
 function getSectionElements(item,callback){
 request(item, function(err,resp, body){
     if(err){callback(err,null); return false;}
-    else{
+    else if(body){
 console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
@@ -85,7 +88,8 @@ console.log(item);
       });
       callback(null, arrayHref);
       return true;
-    }   
+    }
+    callback(null,null);      
   })
 }
 
@@ -93,7 +97,7 @@ console.log(item);
 function getFirmsElements(item,callback){
 request(item, function(err,resp, body){
     if(err){callback(err+' '+resp.statusCode+' '+item,null); return false;}
-    else{
+    else if(body){
 console.log(item);
       $=cheerio.load(body);
       var arrayHref =[];
@@ -104,7 +108,8 @@ console.log(item);
       });
       callback(null, arrayHref);
       return true;
-    }   
+    }
+    callback(null,null);   
   })
 }
 

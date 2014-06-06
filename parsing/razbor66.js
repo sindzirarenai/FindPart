@@ -13,7 +13,7 @@ request(item, function(err,resp,body){
 count++;
 console.log(count+' '+item);
   if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-  else{
+  else if(body){
       var elementInfo = regexp(body);
       callback(null, {
         name:elementInfo.name,
@@ -29,6 +29,7 @@ console.log(count+' '+item);
         price:elementInfo.price
       });
  }
+ callback(null,null);   
 }); 
 return false; 
 }
@@ -37,7 +38,7 @@ function getPageElements(item,callback){
 request(item, function(err,resp, body){
 console.log('do it');
     if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-    else{
+    else if(body){
       $=cheerio.load(body);
       var elements=[]
       $('.product-list').find('li').each(function(i,elem){
@@ -48,14 +49,15 @@ console.log('do it');
       })
       async.mapSeries(elements, getElementInfo, callback); 
       return true;
-    }   
+    }
+    callback(null,null);      
   })
 }
 
 function getMarkaElements(item, callback){
 request(item, function(err,resp, body){
   if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-  else{
+  else if(body){
     $=cheerio.load(body);
     var countPage = Math.floor(parseInt($('#countresultInResult').text())/60)+1;
     var pagesHref=[];
@@ -65,6 +67,7 @@ request(item, function(err,resp, body){
     async.mapSeries(pagesHref, getPageElements, callback);
     return true;
   }
+  callback(null,null);   
 })
 return false;
 }
@@ -73,7 +76,7 @@ return false;
 function parse(callback){
   request(config.get("parsers")[1].catalog, function(err,resp, body){
     if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-    else{
+    else if(body){
       $=cheerio.load(body);
       var marksHref =[];
       $("#Marka").find('option').each(function(i, elem){
@@ -84,6 +87,7 @@ function parse(callback){
       async.mapSeries(marksHref, getMarkaElements, callback);
       return true;
     }
+    callback(null,null);   
   })
   return false;
 }

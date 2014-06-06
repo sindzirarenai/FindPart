@@ -9,7 +9,7 @@ regexp = require('./regexp/razborka');
 function getElementInfo(item, callback){
 request(item, function(err,resp,body){
   if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-  else{
+  else if(body){
   console.log(item);
       var elementInfo = regexp(body);
       var obj ={
@@ -26,6 +26,7 @@ request(item, function(err,resp,body){
         price:elementInfo.price
       }; console.log(obj); callback(null, obj);
   }
+  callback(null,null);   
 }); 
 return false; 
 }
@@ -33,7 +34,7 @@ return false;
 function getPageElements(item,callback){
 request(item, function(err,resp, body){
     if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-    else{
+    else if(body){
     console.log(item);
       $=cheerio.load(body);
       var elements=[];
@@ -42,14 +43,15 @@ request(item, function(err,resp, body){
       })
       async.mapSeries(elements, getElementInfo, callback); 
       return true;
-    }   
+    }
+    callback(null,null);      
   })
 }
 
 function getMarkaElements(item, callback){
 request(item, function(err,resp, body){
   if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-  else{
+  else if(body){
   console.log(item);
     $=cheerio.load(body);
     var countPage = Math.floor(parseInt(/\d+/.exec($('.uc_spareshop_textdownform').text())[0])/20)+1;
@@ -60,6 +62,7 @@ request(item, function(err,resp, body){
     async.map(pagesHref, getPageElements, callback);
     return true;
   }
+  callback(null,null);   
 })
 return false;
 }
@@ -68,7 +71,7 @@ return false;
 function parse(callback){
   request(config.get("parsers")[3].url, function(err,resp, body){
     if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-    else{
+    else if(body){
       $=cheerio.load(body);
       var marksHref =[];
       $('.menu').find('li').each(function(i, elem){
@@ -85,6 +88,7 @@ function parse(callback){
         }
       });
     }
+    callback(null,null);   
   })
   return false;
 }

@@ -7,6 +7,9 @@ var routing = require('./routing');
 var mongoose = require ('./lib/db');
 var Auth = require('./middleware/auth');
 var app = express();
+var later = require('later');
+var Spare = require('./models/spare');
+
 app.engine('ejs', require('ejs-locals'));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -59,4 +62,18 @@ app.use(function(err, req, res, next) {
 http.createServer(app).listen(config.get('server:port'), function(){
   console.log('Express server listening on port ' + config.get('server:port'));
   log.info('Express server listening on port ' + config.get('server:port'));
+  
+  Spare.addFromParsing(["euroauto","razbor66","razborka","smtauto"]);
+ /* later.date.localTime();
+  var sched = later.parse.recur().every(config.get("time")).dayOfYear(),
+  t = later.setInterval(update,sched);
+  
+  function update(){
+    Spare.addFromParsing(config.get("selectedSites"), 
+    function(err,res){
+      if(err){log.error("Parsing not complete" + err);
+      }else{log.info("Parsing complete")}
+    })
+  }*/
+  
 });

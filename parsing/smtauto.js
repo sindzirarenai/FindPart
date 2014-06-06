@@ -10,7 +10,7 @@ regexp = require('./regexp/smtauto');
 function getElementInfo(item, callback){
 request(item, function(err,resp,body){
   if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-  else{
+  else if(body){
       var elementInfo = regexp(body);
       callback(null, {
         name:elementInfo.name,
@@ -26,6 +26,7 @@ request(item, function(err,resp,body){
         price:elementInfo.price
       });
  }
+ callback(null,null);   
 }); 
 return false; 
 }
@@ -34,7 +35,7 @@ function parseElements(item, callback){
 console.log(href);
   request(item, function(err,resp, body){
     if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-    else{
+    else if(body){
       $=cheerio.load(body);
       var arrayHref =[];
       console.log($('.parts_content').find('.descr'));
@@ -44,7 +45,8 @@ console.log(href);
         })
       }
       callback(null, arrayHref);
-    } 
+    }
+    callback(null,null);    
   })   
 }
 
@@ -52,7 +54,7 @@ function parseHrefs(id, href, callback){
 console.log(href);
   request(href, function(err,resp, body){
     if(err||resp.statusCode>=400){callback(err+' '+resp,null); return false;}
-    else{
+    else if(body){
       $=cheerio.load(body);
       var arrayHref =[];
       if($('.'+id).find('a').length>0){
@@ -62,7 +64,8 @@ console.log(href);
       }
       console.log(arrayHref);
       callback(null, arrayHref);
-    } 
+    }
+    callback(null,null);    
   }) 
 }
 

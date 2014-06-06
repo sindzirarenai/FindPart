@@ -20,7 +20,7 @@ Parser.prototype.getNewOne = function(parser,callback){
 }
 
 Parser.prototype.getNew = function(callback){
-  async.concat(this.sites, this.getNewOne, callback);
+  async.concatSeries(this.sites, this.getNewOne, callback);
 } 
 
 module.exports = Parser;
